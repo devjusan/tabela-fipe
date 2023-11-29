@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import '../styles/globals.css';
 import ThemeRegistry from '@app/utils/theme-registry';
 import { ColorModeProvider } from './contexts/color-mode';
 

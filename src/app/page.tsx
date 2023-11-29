@@ -11,11 +11,18 @@ export default function Home() {
 
   return (
     <Container typeof='primary'>
-      <Box>
-        <Typography variant='h1'>Hello World</Typography>
-        <Button variant='contained' onClick={onClick}>
-          Click me
-        </Button>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <Typography variant='h1'>Tabela Fipe</Typography>
+        <Typography variant='h4'>
+          Consulte o valor de um veículo de forma gratuita
+        </Typography>
       </Box>
     </Container>
   );

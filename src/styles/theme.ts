@@ -56,7 +56,26 @@ export const getDesignTokens = (mode: PaletteMode) =>
       fontFamily: roboto.style.fontFamily
     },
     components: {
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            fontWeight: 500
+          }
+        }
+      },
       MuiContainer: {
+        styleOverrides: {
+          root: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+
+            height: '100% !important',
+            width: '100% !important',
+            maxWidth: '100vw !important'
+          }
+        },
         variants: [
           {
             props: { typeof: 'primary' },
