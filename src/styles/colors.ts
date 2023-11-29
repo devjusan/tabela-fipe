@@ -13,5 +13,6 @@ export const colors = {
   divider: '#E5E5E5',
   disabled: '#BDBDBD',
   dark: '#242424',
+  white: '#FFFFFF',
   light: '#F9F6FC'
 };
