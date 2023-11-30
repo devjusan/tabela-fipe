@@ -32,10 +32,6 @@ export const getDesignTokens = (mode: PaletteMode) =>
         light: colors.secondary,
         dark: colors.secondary_hover
       },
-      common: {
-        black: colors.dark,
-        white: colors.light
-      },
       divider: colors.divider,
       error: {
         main: colors.danger
@@ -48,7 +44,7 @@ export const getDesignTokens = (mode: PaletteMode) =>
       },
       text: {
         primary: colors.dark,
-        secondary: colors.light,
+        secondary: colors.dark,
         disabled: colors.divider
       }
     },
@@ -56,6 +52,16 @@ export const getDesignTokens = (mode: PaletteMode) =>
       fontFamily: roboto.style.fontFamily
     },
     components: {
+      MuiButton: {
+        styleOverrides: {
+          root: {
+            '&.Mui-disabled': {
+              backgroundColor: colors.disabled,
+              color: colors.divider
+            }
+          }
+        }
+      },
       MuiTypography: {
         styleOverrides: {
           root: {
@@ -64,14 +70,28 @@ export const getDesignTokens = (mode: PaletteMode) =>
           }
         }
       },
+      MuiButtonBase: {
+        styleOverrides: {
+          root: {
+            color: colors.grey
+          }
+        }
+      },
+      MuiOutlinedInput: {
+        styleOverrides: {
+          notchedOutline: {
+            borderColor: colors.divider + ' !important'
+          }
+        }
+      },
       MuiSelect: {
         styleOverrides: {
           root: {
-            background: mode === 'dark' ? colors.light : colors.white,
+            background: colors.white,
             width: '340px'
           },
-          '.MuiPaper-root-MuiPopover-paper-MuiMenu-paper': {
-            background: mode === 'dark' ? colors.light : colors.white
+          icon: {
+            color: colors.dark
           }
         }
       },

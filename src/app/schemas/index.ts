@@ -1,7 +1,7 @@
-import { z } from 'zod';
+import { string, object } from 'zod';
 
-export const FipeSchema = z.object({
-  brand: z.string(),
-  model: z.string(),
-  year: z.number().positive()
+export const fipeSchema = object({
+  brandId: string().min(1),
+  modelId: string().min(1),
+  year: string().min(1)
 });

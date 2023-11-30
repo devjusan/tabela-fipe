@@ -1,4 +1,4 @@
-import useSWR from 'swr';
+import useSWR, { KeyedMutator } from 'swr';
 import { fetcher } from '../lib/config';
 import { ModelCurrentValue, Model } from '@app/types';
 
@@ -7,37 +7,39 @@ const useFipeTable = ({
   modelId,
   year
 }: {
-  brandId: string | null;
-  modelId: string | null;
-  year: number | null;
+  brandId?: string | null;
+  modelId?: string | null;
+  year?: string | null;
 }) => {
   const details = `${brandId ?? ''}@${modelId ?? ''}@${year ?? ''}`;
 
-  const { data, error, isLoading } = useSWR<
+  const { data, error, isLoading, mutate } = useSWR<
     { item: ModelCurrentValue | Array<Model> },
     Error
   >(`/api/fipe/${details}`, fetcher);
 
-  if (brandId && modelId && year) {
-    return {
-      data,
-      isLoading,
-      error
-    } as {
-      data: { item: ModelCurrentValue } | undefined;
-      isLoading: boolean;
-      error: Error | undefined;
-    };
-  }
-
   return {
     data,
     isLoading,
-    error
+    error,
+    mutate
   } as {
-    data: { item: Array<Model> } | undefined;
+    data:
+      | {
+          brands: Array<Model> | null;
+          brandModels: {
+            modelos: Array<Model>;
+            anos: Array<Model>;
+          } | null;
+          brandModelYears: Array<Model> | null;
+          carDetails: ModelCurrentValue | null;
+        }
+      | undefined;
     isLoading: boolean;
     error: Error | undefined;
+    mutate: KeyedMutator<{
+      item: ModelCurrentValue | Array<Model>;
+    }>;
   };
 };
 

@@ -12,7 +12,8 @@ export const colors = {
   warning: 'rgba(238, 204, 85, 1)',
   divider: '#E5E5E5',
   disabled: '#BDBDBD',
+  grey: '#9E9E9E',
   dark: '#242424',
-  white: '#FFFFFF',
+  white: '#fafafa',
   light: '#F9F6FC'
 };
