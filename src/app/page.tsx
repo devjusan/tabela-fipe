@@ -10,12 +10,14 @@ import {
   Typography,
   styled
 } from '@mui/material';
-import { useSWRConfig } from 'swr';
+import { isValid } from 'zod';
 import { colors } from '../styles/colors';
 import Select from './components/ui/select';
 import useFipeTable from './hooks/useFipeTable';
 import { FormEvent, useMemo, useState } from 'react';
 import { fipeSchema } from './schemas';
+import urls from '../constants/urls';
+import { ModelCurrentValue } from './types';
 
 const SBox = styled(Box)({
   display: 'flex',
@@ -25,24 +27,31 @@ const SBox = styled(Box)({
 });
 
 export default function Home() {
+  const [isLoadingBtn, setIsLoadingBtn] = useState(false);
+  const [modelCurrentValue, setModelCurrentValue] =
+    useState<ModelCurrentValue | null>(null);
   const [form, setForm] = useState({
     brandId: '',
     modelId: '',
     year: ''
   });
   const { data, isLoading, error } = useFipeTable(form);
-  const { mutate } = useSWRConfig();
   const isFormValid = useMemo(() => {
     try {
       fipeSchema.parse(form);
-      return true;
-    } catch (err) {
+
       return false;
+    } catch (error) {
+      return true;
     }
   }, [form]);
 
   if (error) {
-    return <Typography variant='h1'>Ocorreu um erro</Typography>;
+    return (
+      <Container typeof='primary'>
+        <Typography variant='h1'>Ocorreu um erro</Typography>;{' '}
+      </Container>
+    );
   }
 
   if (!data || isLoading) {
@@ -52,10 +61,25 @@ export default function Home() {
       </Container>
     );
   }
-  console.log(data);
 
-  const handleClick = (e: FormEvent) => {
+  const handleClick = async (e: FormEvent) => {
     e.preventDefault();
+    setIsLoadingBtn(true);
+
+    const carDetails = (await fetch(
+      urls.GET_CAR_DETAILS(form.brandId, form.modelId, form.year),
+      {
+        cache: 'no-cache'
+      }
+    )
+      .then((res) => res.json())
+      .then((r) => {
+        setIsLoadingBtn(false);
+
+        return r;
+      })) as ModelCurrentValue;
+
+    console.log(carDetails);
   };
 
   return (
@@ -87,13 +111,6 @@ export default function Home() {
             value={form.brandId}
             onChange={(e) => {
               setForm({ ...form, brandId: e.target.value as string });
-
-              const details = `${form.brandId ?? ''}@${form.modelId ?? ''}@${
-                form.year ?? ''
-              }`;
-              console.log(details);
-
-              mutate(`/api/fipe/${details}`);
             }}
             required
           >
@@ -119,19 +136,46 @@ export default function Home() {
             required
           >
             {data?.brandModels?.modelos.map((brand) => (
-              <MenuItem key={brand.codigo} value={brand.nome}>
+              <MenuItem key={brand.codigo} value={brand.codigo}>
                 {brand.nome}
               </MenuItem>
             ))}
           </Select>
         </FormControl>
+        {form.modelId && (
+          <FormControl variant='outlined'>
+            <InputLabel id='year'>Ano</InputLabel>
+            <Select
+              name='year'
+              labelId='year'
+              placeholder='Ano'
+              label='Ano'
+              autoComplete='nome'
+              value={form.year}
+              onChange={(e) =>
+                setForm({ ...form, year: e.target.value as string })
+              }
+              required
+            >
+              {data?.brandModelYears?.map((brand) => (
+                <MenuItem key={brand.codigo} value={brand.codigo}>
+                  {brand.nome}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )}
 
         <Button
           variant='contained'
           onClick={handleClick}
-          disabled={!isFormValid}
+          disabled={isFormValid}
+          style={{
+            pointerEvents: isLoadingBtn ? 'none' : 'auto',
+            width: '200px'
+          }}
         >
-          Consultar preço
+          {isLoadingBtn ? 'Carrengando...' : 'Consultar preço'}
         </Button>
       </SBox>
     </Container>
