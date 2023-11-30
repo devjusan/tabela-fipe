@@ -18,6 +18,7 @@ import { FormEvent, useMemo, useState } from 'react';
 import { fipeSchema } from './schemas';
 import urls from '../constants/urls';
 import { ModelCurrentValue } from './types';
+import CarDetails from './components/ui/car-details';
 
 const SBox = styled(Box)({
   display: 'flex',
@@ -75,15 +76,19 @@ export default function Home() {
       .then((res) => res.json())
       .then((r) => {
         setIsLoadingBtn(false);
+        setModelCurrentValue(r);
 
         return r;
       })) as ModelCurrentValue;
-
-    console.log(carDetails);
   };
 
   return (
-    <Container typeof='primary'>
+    <Container
+      typeof='primary'
+      style={{
+        justifyContent: 'space-around'
+      }}
+    >
       <SBox>
         <Typography variant='h1'>Tabela Fipe</Typography>
         <Typography variant='h4'>
@@ -177,6 +182,17 @@ export default function Home() {
         >
           {isLoadingBtn ? 'Carrengando...' : 'Consultar preço'}
         </Button>
+      </SBox>
+      <SBox
+        style={{
+          flexFlow: 'colum nowrap'
+        }}
+      >
+        <CarDetails
+          AnoModelo={modelCurrentValue?.AnoModelo}
+          Modelo={modelCurrentValue?.Modelo}
+          Valor={modelCurrentValue?.Valor}
+        />
       </SBox>
     </Container>
   );

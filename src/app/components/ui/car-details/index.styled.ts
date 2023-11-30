@@ -1,10 +1,17 @@
+import { colors } from '@/src/styles/colors';
 import { styled } from '@mui/material';
 
 export const Container = styled('div')(({ theme }) => ({
-  position: 'absolute',
-  top: '1rem',
-  right: '4rem',
+  width: '100vw',
+
   display: 'flex',
-  alignItems: 'center',
-  gap: '0.5rem'
+  alignContent: 'center',
+  justifyContent: 'center',
+  textAlign: 'center',
+  flexDirection: 'column',
+  gap: '1rem',
+
+  padding: '1.5rem',
+  background: theme.palette.mode === 'dark' ? colors.dark : colors.secondary_bg,
+  overflow: 'hidden'
 }));

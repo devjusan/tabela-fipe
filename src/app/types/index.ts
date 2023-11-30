@@ -4,6 +4,7 @@ export type Model = {
 };
 
 export type ModelCurrentValue = {
-  Valor: string;
-  Modelo: string;
+  Valor: string | undefined;
+  Modelo: string | undefined;
+  AnoModelo: number | undefined;
 };
