@@ -63,6 +63,17 @@ export const getDesignTokens = (mode: PaletteMode) =>
           }
         }
       },
+      MuiSelect: {
+        styleOverrides: {
+          root: {
+            background: mode === 'dark' ? colors.light : colors.white,
+            width: '340px'
+          },
+          '.MuiPaper-root-MuiPopover-paper-MuiMenu-paper': {
+            background: mode === 'dark' ? colors.light : colors.white
+          }
+        }
+      },
       MuiContainer: {
         styleOverrides: {
           root: {

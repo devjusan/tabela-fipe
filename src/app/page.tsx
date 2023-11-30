@@ -1,5 +1,12 @@
 'use client';
-import { Box, Button, Container, Typography, styled } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Switch,
+  Typography,
+  styled
+} from '@mui/material';
 import { useColorMode } from './contexts/color-mode';
 import { colors } from '../styles/colors';
 import Select from './components/ui/select';
@@ -19,7 +26,25 @@ export default function Home() {
   };
 
   return (
-    <Container typeof='primary'>
+    <Container
+      typeof='primary'
+      style={{
+        position: 'relative'
+      }}
+    >
+      <Box
+        style={{
+          position: 'absolute',
+          top: '1rem',
+          right: '4rem',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem'
+        }}
+      >
+        <Switch onChange={toggleColorMode} />
+        <Typography variant='caption'>Dark mode</Typography>
+      </Box>
       <SBox>
         <Typography variant='h1'>Tabela Fipe</Typography>
         <Typography variant='h4'>
