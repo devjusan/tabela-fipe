@@ -8,17 +8,9 @@ export async function GET(
 ) {
   const { details } = context.params;
   const [brandId, modelId, year] = details.split('@');
-  const carDetails =
-    brandId &&
-    brandId.length &&
-    modelId &&
-    modelId.length &&
-    year &&
-    year.length
-      ? ((await fetch(urls.GET_CAR_DETAILS(brandId, modelId, year)).then(
-          (res) => res.json()
-        )) as ModelCurrentValue)
-      : null;
+  const carDetails = (await fetch(
+    urls.GET_CAR_DETAILS(brandId, modelId, year)
+  ).then((res) => res.json())) as ModelCurrentValue;
 
   return NextResponse.json({
     carDetails
