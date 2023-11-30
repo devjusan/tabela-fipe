@@ -2,6 +2,7 @@
 import { Box, Button, Container, Typography, styled } from '@mui/material';
 import { colors } from '../styles/colors';
 import Select from './components/ui/select';
+import useFipeTable from './hooks/useFipeTable';
 
 const SBox = styled(Box)({
   display: 'flex',
@@ -11,6 +12,14 @@ const SBox = styled(Box)({
 });
 
 export default function Home() {
+  const { data } = useFipeTable({
+    brandId: null,
+    modelId: null,
+    year: null
+  });
+
+  console.log(data);
+
   return (
     <Container typeof='primary'>
       <SBox>
@@ -29,8 +38,8 @@ export default function Home() {
           padding: '2rem'
         }}
       >
-        <Select placeholder='Marca' />
-        <Select placeholder='Modelo' />
+        {/* <Select placeholder='Marca' />
+        <Select placeholder='Modelo' /> */}
 
         <Button variant='contained'>Consultar preço</Button>
       </SBox>
