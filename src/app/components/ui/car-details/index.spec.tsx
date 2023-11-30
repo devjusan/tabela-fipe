@@ -1,0 +1,16 @@
+import { render, cleanup, screen } from '@testing-library/react';
+import CarDetails from '.';
+
+describe('CarDetails', () => {
+  afterAll(() => {
+    cleanup();
+  });
+
+  it('should show model, value and year of car', () => {
+    render(<CarDetails model='Ferrari' value={1000000} year={1000} />);
+
+    expect(screen.findByText('Ferrari')).toBeTruthy();
+    expect(screen.findByText('1000000')).toBeTruthy();
+    expect(screen.findByText('1000')).toBeTruthy();
+  });
+});
