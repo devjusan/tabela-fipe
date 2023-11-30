@@ -4,7 +4,7 @@ import { Container } from './index.styled';
 import { ModelCurrentValue } from '@/src/app/types';
 import { colors } from '@/src/styles/colors';
 
-function CarDetails(currentCar: ModelCurrentValue) {
+function CarDetails(currentCar?: ModelCurrentValue) {
   if (!currentCar?.Modelo || !currentCar?.Valor || !currentCar?.AnoModelo) {
     return (
       <Container>
