@@ -59,7 +59,8 @@ export const getDesignTokens = (mode: PaletteMode) =>
       MuiTypography: {
         styleOverrides: {
           root: {
-            fontWeight: 500
+            fontWeight: 500,
+            color: mode === 'dark' ? colors.light : colors.dark
           }
         }
       },

@@ -8,6 +8,7 @@ import { ReactNode, useState, useMemo, useEffect } from 'react';
 import Footer from '../components/core/footer';
 import { getDesignTokens } from '@/src/styles/theme';
 import { useColorMode } from '../contexts/color-mode';
+import Header from '../components/core/header';
 
 // This implementation is from emotion-js
 // https://github.com/emotion-js/emotion/issues/2928#issuecomment-1319747902
@@ -60,7 +61,13 @@ export default function ThemeRegistry({ children }: { children: ReactNode }) {
     <CacheProvider value={cache}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <body suppressHydrationWarning>
+        <body
+          suppressHydrationWarning
+          style={{
+            position: 'relative'
+          }}
+        >
+          <Header />
           <main>{children}</main>
           <Footer />
         </body>
