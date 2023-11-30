@@ -1,15 +1,15 @@
 import { render, cleanup, screen } from '@testing-library/react';
 import Header from '.';
 
-describe('Footer', () => {
+describe('Header', () => {
   afterAll(() => {
     cleanup();
   });
 
   it('should match snapshot', () => {
-    const footerText = 'Tabela Fipe';
+    const headerText = 'Dark mode';
     render(<Header />);
 
-    expect(screen.getByText(footerText)).toMatchSnapshot();
+    expect(screen.getByText(headerText)).toMatchSnapshot();
   });
 });
