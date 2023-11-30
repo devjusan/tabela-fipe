@@ -17,7 +17,7 @@ import useFipeTable from './hooks/useFipeTable';
 import { FormEvent, useMemo, useState } from 'react';
 import { fipeSchema } from './schemas';
 import urls from '../constants/urls';
-import { ModelCurrentValue } from './types';
+import { Model, ModelCurrentValue } from './types';
 import CarDetails from './components/ui/car-details';
 
 const SBox = styled(Box)({
@@ -36,7 +36,7 @@ export default function Home() {
     modelId: '',
     year: ''
   });
-  const { data, isLoading, error } = useFipeTable(form);
+  const { data, isLoading, error, mutate } = useFipeTable(form);
   const isFormValid = useMemo(() => {
     try {
       fipeSchema.parse(form);
@@ -67,20 +67,16 @@ export default function Home() {
     e.preventDefault();
     setIsLoadingBtn(true);
 
-    const carDetails = (await fetch(
-      urls.GET_CAR_DETAILS(form.brandId, form.modelId, form.year),
-      {
-        cache: 'no-cache'
-      }
-    )
+    await fetch(urls.GET_CAR_DETAILS(form.brandId, form.modelId, form.year))
       .then((res) => res.json())
       .then((r) => {
         setIsLoadingBtn(false);
         setModelCurrentValue(r);
 
         return r;
-      })) as ModelCurrentValue;
+      });
   };
+  console.log('data', data);
 
   return (
     <Container
@@ -115,6 +111,16 @@ export default function Home() {
             autoComplete='nome'
             value={form.brandId}
             onChange={(e) => {
+              if (form.year || form.modelId) {
+                setForm({
+                  year: '',
+                  modelId: '',
+                  brandId: e.target.value as string
+                });
+
+                return;
+              }
+
               setForm({ ...form, brandId: e.target.value as string });
             }}
             required

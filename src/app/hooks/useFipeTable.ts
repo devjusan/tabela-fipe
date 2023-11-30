@@ -14,7 +14,16 @@ const useFipeTable = ({
   const details = `${brandId ?? ''}@${modelId ?? ''}@${year ?? ''}`;
 
   const { data, error, isLoading, mutate } = useSWR<
-    { item: ModelCurrentValue | Array<Model> },
+    {
+      item: {
+        brands: Array<Model> | null;
+        brandModels: {
+          modelos: Array<Model>;
+          anos: Array<Model>;
+        } | null;
+        brandModelYears: Array<Model> | null;
+      };
+    },
     Error
   >(`/api/fipe/${details}`, fetcher);
 
@@ -32,13 +41,19 @@ const useFipeTable = ({
             anos: Array<Model>;
           } | null;
           brandModelYears: Array<Model> | null;
-          carDetails: ModelCurrentValue | null;
         }
       | undefined;
     isLoading: boolean;
     error: Error | undefined;
     mutate: KeyedMutator<{
-      item: ModelCurrentValue | Array<Model>;
+      item: {
+        brands: Array<Model> | null;
+        brandModels: {
+          modelos: Array<Model>;
+          anos: Array<Model>;
+        } | null;
+        brandModelYears: Array<Model> | null;
+      };
     }>;
   };
 };
