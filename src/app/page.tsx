@@ -76,7 +76,6 @@ export default function Home() {
         return r;
       });
   };
-  console.log('data', data);
 
   return (
     <Container
